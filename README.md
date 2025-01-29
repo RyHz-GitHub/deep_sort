@@ -9,14 +9,14 @@ See the [arXiv preprint](https://arxiv.org/abs/1703.07402) for more information.
 
 ## Dependencies
 
-The code is compatible with Python 2.7 and 3. The following dependencies are
+The code is compatible with Python 3. The following dependencies are
 needed to run the tracker:
 
 * NumPy
-* sklearn
+* scipy.optimize
 * OpenCV
 
-Additionally, feature generation requires TensorFlow (>= 1.0).
+Additionally, feature generation requires TensorFlow (2.12), tf_slim and tf-keras individually to ensure backward compatibility to TensorFlow (1.x).
 
 ## Installation
 
