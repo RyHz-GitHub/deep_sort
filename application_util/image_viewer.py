@@ -129,7 +129,7 @@ class ImageViewer(object):
         x : float | int
             Top left corner of the rectangle (x-axis).
         y : float | int
-            Top let corner of the rectangle (y-axis).
+            Top left corner of the rectangle (y-axis).
         w : float | int
             Width of the rectangle.
         h : float | int

@@ -16,7 +16,7 @@ needed to run the tracker:
 * scipy.optimize
 * OpenCV
 
-Additionally, feature generation requires TensorFlow (2.12), tf_slim and tf-keras individually to ensure backward compatibility to TensorFlow (1.x).
+Additionally, feature generation requires TensorFlow (2.12), tf_slim and tf-keras to ensure backward compatibility to TensorFlow (1.x).
 
 ## Installation
 

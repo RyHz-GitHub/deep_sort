@@ -2,7 +2,8 @@
 /MOT16
 /resources
 /results
-py-motmetrics.py
+/Metrics
+/MOTresults
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
