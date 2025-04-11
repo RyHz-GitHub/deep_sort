@@ -68,21 +68,21 @@ def compare_with_pandas(output=True):
         differences_dataframes.append(df_diff)
 
         if output==True:
-            print(f"Detections in file {sequence.split('.')[0]}: {n}\n")
+            print(f"\nDetections in file {sequence.split('.')[0]}: {n}\n")
 
             print(f"There are {amount_diff_raw} unequal lines")
             print(f"Percentage unequal lines: {round(amount_diff_raw/n*100,2)} % \n") 
 
-            print(f"There are {amount_diff_dropid} that differ by more than just Track ID")
+            print(f"There are {amount_diff_dropid} lines that differ by more than just Track ID")
             print(f"Percentage differing lines ignoring ID: {round(amount_diff_dropid/n*100,2)} % \n") 
 
-            print(f"There are {amount_diff_sorted} that aren't just switched around.")
+            print(f"There are {amount_diff_sorted} lines that aren't just switched around.")
             print(f"Percentage differing lines ignoring order: {round(amount_diff_sorted/n*100,2)} % \n")
 
-            print('----------------------------------------------------------------- \n')
-        if sequence == "MOT16-03.txt":
-            df03 = df_diff
-    
+            if sequence != "MOT16-14.txt":
+                print('-----------------------------------------------------------------')
+        
+            
     return differences_dataframes
 
 
@@ -141,8 +141,12 @@ def count_track_ids():
             print("check failed")
 
 
+if __name__ == "__main__":
+    os.makedirs(r"Metrics\compare_result_lines\raw",exist_ok=True)
+    os.makedirs(r"Metrics\compare_result_lines\dropid", exist_ok=True) 
+    os.makedirs(r"Metrics\compare_result_lines\sorted", exist_ok=True)
 
-#compare_by_String()
-#compare_with_pandas()
-#diff_pandas_string()
-#count_track_ids()
+    #compare_by_String()
+    compare_with_pandas()
+    #diff_pandas_string()
+    #count_track_ids()

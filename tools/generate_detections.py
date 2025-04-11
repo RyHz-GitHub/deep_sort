@@ -83,7 +83,7 @@ class ImageEncoder(object):
         with tf.io.gfile.GFile(checkpoint_filename, "rb") as file_handle:
             graph_def = tf.compat.v1.GraphDef()
             graph_def.ParseFromString(file_handle.read())
-        tf.compat.v1.import_graph_def(graph_def, name="net")###
+        tf.compat.v1.import_graph_def(graph_def, name="net")
         self.input_var = tf.compat.v1.get_default_graph().get_tensor_by_name(
             "net/%s:0" % input_name)
         self.output_var = tf.compat.v1.get_default_graph().get_tensor_by_name(
@@ -150,7 +150,7 @@ def generate_detections(encoder, mot_dir, output_dir, detection_dir=None):
             pass
         else:
             raise ValueError(
-                "Failed to created output directory '%s'" % output_dir)
+                "Failed to create output directory '%s'" % output_dir)
 
     for sequence in os.listdir(mot_dir):
         print("Processing %s" % sequence)

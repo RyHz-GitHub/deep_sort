@@ -1,9 +1,16 @@
 # Folders
 /MOT16
+/MOT16_smallsample
 /resources
 /results
 /Metrics
 /MOTresults
+/YOLO
+
+# CNN models / debug-options / test-files
+*.pt
+.vscode
+yolotest.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
