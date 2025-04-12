@@ -1,15 +1,18 @@
 from ultralytics import YOLO
+from ultralytics.utils.ops import xywh2ltwh
 import argparse
 import torch
 import os
 
+
 # usage: python generate_yolo_detections.py --mot_dir=MOT16_smallsample/train --save_images=False
 
 # TODO generic video_seq instead of MOT
-# TODO make sure the format fits with DeepSORT format (MOT16 format)     
+# TODO play video with yolo detections (nice extra not neccessary)
+  
 
 
-def yolo_detections_MOT16(mot_dir = "MOT16\\train", output_dir = "YOLO", save_images = False, img_out_dir = "YOLO\\bbox_images" ,visualize = False):
+def yolo_detections_MOT16(mot_dir = "MOT16_smallsample\\train", output_dir = "YOLO", save_images = False, img_out_dir = "YOLO\\bbox_images" ,visualize = False):
     
     # Load Model, currently pre-trained, faster versions available but yolo11x is the most precise
     model = YOLO("yolo11x.pt")
@@ -29,7 +32,7 @@ def yolo_detections_MOT16(mot_dir = "MOT16\\train", output_dir = "YOLO", save_im
         # Perform object detection on all frames of the video sequence
         # class 0 : Person 
         video_sequence = model(video_dir,stream = True,
-                                classes = [0], iou = 1.0, conf = 0.2,       
+                                classes = [0], iou = 0.7, conf = 0.25,       
                                )  
         #max_frame_idx = len(os.listdir(video_dir))
 
@@ -38,10 +41,12 @@ def yolo_detections_MOT16(mot_dir = "MOT16\\train", output_dir = "YOLO", save_im
             #print(f"Frame {frame_idx:05d}/{max_frame_idx:05d}") 
             boxes = frame.boxes
             confs  = torch.Tensor.numpy(boxes.conf)
-            bboxes_xywh = torch.Tensor.numpy(boxes.xywh) # xywh should be the MOT format which is also the deepsort format
+            # ltwh is the MOT format, boxes doesn't support immediate translation
+            bboxes_xywh = torch.Tensor.numpy(boxes.xywh)
+            bboxes_ltwh = xywh2ltwh(bboxes_xywh)
             
             # save the bounding boxes and the confidence values in MOT16 format
-            for bbox,conf in zip(bboxes_xywh,confs):
+            for bbox,conf in zip(bboxes_ltwh,confs):
                 results.append([frame_idx, -1, bbox[0], bbox[1], bbox[2], bbox[3], conf, -1,-1,-1]) 
 
             if save_images:
@@ -50,7 +55,7 @@ def yolo_detections_MOT16(mot_dir = "MOT16\\train", output_dir = "YOLO", save_im
 
         with open(output_file, "w") as f:
             for row in results:
-                str_row = ','.join(str(item) for item in row)   # TODO  maybe premade function for this: save_txt
+                str_row = ','.join(str(item) for item in row)
                 print(str_row, file=f)
 
 
